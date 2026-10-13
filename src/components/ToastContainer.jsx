@@ -1,9 +1,21 @@
 import { useToast } from "../context/ToastContext.jsx";
 
-export default function ToastContainer() {
-  const { toasts, dismissToast } = useToast();
+export default function ToastContainer({ toasts: propsToasts, onDismiss }) {
+  const { toasts: contextToasts, dismissToast } = useToast();
+  const toasts = propsToasts ?? contextToasts;
+  const handleDismiss = onDismiss ?? dismissToast;
 
-  // Task 2: Build the ToastContainer
-  // It currently returns null, so nothing appears.
-  return null;
+  return (
+    <div className="toast-container">
+      {toasts.map((toast) => (
+        <div
+          key={toast.id}
+          className={`toast toast-${toast.type}`}
+          onClick={() => handleDismiss(toast.id)}
+        >
+          {toast.message}
+        </div>
+      ))}
+    </div>
+  );
 }

@@ -8,15 +8,17 @@ export default function CreateThreadForm() {
   const [body, setBody] = useState("");
   const { showToast } = useToast();
 
+  // Task 3: Wire the create-thread mutation
   const mutation = useMutation({
     mutationFn: createThread,
     onSuccess: () => {
-      // Task 3: show success toast
+      showToast("Thread posted!", "success");
       setTitle("");
       setBody("");
     },
     onError: (error) => {
-      // Task 3: show error toast
+      const message = error.response?.data?.message || "Failed to post thread";
+      showToast(message, "error");
     },
   });
 

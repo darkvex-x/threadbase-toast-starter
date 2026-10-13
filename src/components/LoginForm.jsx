@@ -8,15 +8,17 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const { showToast } = useToast();
 
+  // Task 4: Wire the login mutation
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      // Task 4: show success toast
+      showToast("Welcome back!", "success");
       setUsername("");
       setPassword("");
     },
     onError: (error) => {
-      // Task 4: show error toast
+      const message = error.response?.data?.message || "Login failed";
+      showToast(message, "error");
     },
   });
 

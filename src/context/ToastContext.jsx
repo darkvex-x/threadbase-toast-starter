@@ -5,15 +5,19 @@ const ToastContext = createContext(null);
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
 
-  // Task 1: implement dismissToast(id)
+  // Task 1: dismissToast(id)
   const dismissToast = useCallback((id) => {
-    // stub
+    setToasts((current) => current.filter((t) => t.id !== id));
   }, []);
 
-  // Task 1: implement showToast(message, type, duration)
+  // Task 1: showToast(message, type, duration)
   const showToast = useCallback(
     (message, type = "info", duration = 3000) => {
-      // stub
+      const id = crypto.randomUUID();
+      setToasts((current) => [...current, { id, message, type, duration }]);
+      setTimeout(() => {
+        dismissToast(id);
+      }, duration);
     },
     [dismissToast]
   );
