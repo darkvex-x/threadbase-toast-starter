@@ -13,7 +13,10 @@ export function ToastProvider({ children }) {
   // Task 1: implement showToast(message, type, duration)
   const showToast = useCallback(
     (message, type = "info", duration = 3000) => {
-      const id = crypto.randomUUID();
+      const id =
+        typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+          ? crypto.randomUUID()
+          : `toast_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
       const toastDuration = duration || 3000;
       setToasts((current) => [...current, { id, message, type, duration: toastDuration }]);
       setTimeout(() => {

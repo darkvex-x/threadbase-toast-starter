@@ -23,7 +23,7 @@ export default function LoginForm() {
   });
 
   function handleSubmit(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     mutation.mutate({ username, password });
   }
 
@@ -32,18 +32,25 @@ export default function LoginForm() {
       <h2 className="section-title">Log in</h2>
       <p className="muted">Try ada / password for success.</p>
       <input
+        id="login-username-input"
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
+        id="login-password-input"
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit" disabled={mutation.isPending}>
+      <button
+        id="login-submit-btn"
+        type="submit"
+        onClick={handleSubmit}
+        disabled={mutation.isPending}
+      >
         {mutation.isPending ? "Logging in..." : "Log in"}
       </button>
     </form>

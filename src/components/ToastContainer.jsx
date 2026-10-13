@@ -1,9 +1,9 @@
 import { useToast } from "../context/ToastContext.jsx";
 
-export default function ToastContainer({ toasts: propToasts, onDismiss: propOnDismiss }) {
+export default function ToastContainer({ toasts: propToasts, onDismiss }) {
   const context = useToast();
-  const toasts = propToasts || context.toasts;
-  const onDismiss = propOnDismiss || context.dismissToast;
+  const toasts = propToasts ?? context.toasts;
+  const dismiss = onDismiss ?? context.dismissToast;
 
   return (
     <div className="toast-container">
@@ -11,7 +11,7 @@ export default function ToastContainer({ toasts: propToasts, onDismiss: propOnDi
         <div
           key={toast.id}
           className={`toast toast-${toast.type}`}
-          onClick={() => onDismiss(toast.id)}
+          onClick={() => dismiss(toast.id)}
         >
           {toast.message}
         </div>
