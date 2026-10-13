@@ -8,20 +8,22 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const { showToast } = useToast();
 
+  // Task 4: Wire the login mutation
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      // Task 4: show success toast
+      showToast("Welcome back!", "success");
       setUsername("");
       setPassword("");
     },
     onError: (error) => {
-      // Task 4: show error toast
+      const message = error.response?.data?.message || "Login failed";
+      showToast(message, "error");
     },
   });
 
   function handleSubmit(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     mutation.mutate({ username, password });
   }
 
@@ -30,20 +32,25 @@ export default function LoginForm() {
       <h2 className="section-title">Log in</h2>
       <p className="muted">Try ada / password for success.</p>
       <input
+        id="login-username-input"
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        required
       />
       <input
+        id="login-password-input"
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        required
       />
-      <button type="submit" disabled={mutation.isPending}>
+      <button
+        id="login-submit-btn"
+        type="submit"
+        onClick={handleSubmit}
+        disabled={mutation.isPending}
+      >
         {mutation.isPending ? "Logging in..." : "Log in"}
       </button>
     </form>

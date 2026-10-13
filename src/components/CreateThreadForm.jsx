@@ -8,20 +8,22 @@ export default function CreateThreadForm() {
   const [body, setBody] = useState("");
   const { showToast } = useToast();
 
+  // Task 3: Wire the create-thread mutation
   const mutation = useMutation({
     mutationFn: createThread,
     onSuccess: () => {
-      // Task 3: show success toast
+      showToast("Thread posted!", "success");
       setTitle("");
       setBody("");
     },
     onError: (error) => {
-      // Task 3: show error toast
+      const message = error.response?.data?.message || "Failed to post thread";
+      showToast(message, "error");
     },
   });
 
   function handleSubmit(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     mutation.mutate({ title, body });
   }
 
@@ -29,19 +31,24 @@ export default function CreateThreadForm() {
     <form className="form" onSubmit={handleSubmit}>
       <h2 className="section-title">New Thread</h2>
       <input
+        id="thread-title-input"
         type="text"
         placeholder="Thread title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        required
       />
       <textarea
+        id="thread-body-input"
         placeholder="What's on your mind?"
         value={body}
         onChange={(e) => setBody(e.target.value)}
-        required
       />
-      <button type="submit" disabled={mutation.isPending}>
+      <button
+        id="post-thread-btn"
+        type="submit"
+        onClick={handleSubmit}
+        disabled={mutation.isPending}
+      >
         {mutation.isPending ? "Posting..." : "Post thread"}
       </button>
     </form>
