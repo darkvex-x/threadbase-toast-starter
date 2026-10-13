@@ -35,13 +35,11 @@ export default function CreateThreadForm() {
         placeholder="Thread title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        required
       />
       <textarea
         placeholder="What's on your mind?"
         value={body}
         onChange={(e) => setBody(e.target.value)}
-        required
       />
       <button type="submit" disabled={mutation.isPending}>
         {mutation.isPending ? "Posting..." : "Post thread"}
